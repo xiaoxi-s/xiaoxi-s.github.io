@@ -2,7 +2,7 @@
 
 ## State of Art
 
-## Methodology
+## Our Approach
 
 ### Data and Preprocess
 
@@ -14,6 +14,7 @@
 
 ## Material
 
+## Reference
 
 ## Welcome to GitHub Pages
 

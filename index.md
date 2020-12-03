@@ -1,22 +1,67 @@
-## Overview
+# Overview
 
-## State of Art
+Illumination prediction is a crutial component for augmented reality (AR) and mixed reality (MR) to produce expected virtual objects and scenes. 
 
-## Our Approach
+ - importance, application
+ - complexity
 
-### Data and Preprocess
+# State of Art
+ 
 
-### Training
+# Our Approach
 
-## Result
+ - Deep learning based
+ - Simplified parametric estimation
 
-## Discussion
+### Network Architecture
 
-## Material
+The feature extracter is (dense121)[https://arxiv.org/abs/1608.06993]. The classification layer is replaced with two linear layers with Relu activation between them. The output consists of three light sources.
+ 
+## Data and Preprocess
 
-## Reference
+ - Dataset
+ - Labeling process
 
-## Welcome to GitHub Pages
+## Training
+
+### Parameter Setting
+
+### Network reference
+
+ - loss
+ - time
+ - network reference
+
+
+# Result
+
+## Accuracy
+
+## Rendering Examples
+
+### Ground Truth
+
+### Predicted Result
+
+
+# Discussion
+
+## Accuracy Measure
+
+## Feature Extracter
+
+
+# Material
+
+## Project Proposal
+
+## Mid-term Report
+
+# Reference
+
+
+
+# Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/xiaoxi-s/xiaoxi-s.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files.
 

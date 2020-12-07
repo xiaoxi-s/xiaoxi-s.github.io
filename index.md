@@ -13,10 +13,16 @@ Illumination prediction is a crutial component for augmented reality (AR) and mi
  - Deep learning based
  - Simplified parametric estimation
 
-### Network Architecture
+## Environment Specification
+
+ - GPUs:  
+ - Libraries
+  - 
+
+## Network Architecture
 
 The feature extracter is (dense121)[https://arxiv.org/abs/1608.06993]. The classification layer is replaced with two linear layers with Relu activation between them. The output consists of three light sources.
- 
+
 ## Data and Preprocess
 
  - Dataset
@@ -26,11 +32,16 @@ The feature extracter is (dense121)[https://arxiv.org/abs/1608.06993]. The class
 
 ### Parameter Setting
 
+ - Optimizer:
+ - Learning rate: 
+ - Batch size: 
+ - 
+
 ### Network reference
 
- - loss
- - time
- - network reference
+ - Time for training with fine tune: 
+ - Time for training without fine tune: 
+ - network (reference)[https://github.com/xiaoxi-s/Illumination-Prediction/blob/main/checkpoint/model_epoch_20_res_360x240]
 
 
 # Result
@@ -43,13 +54,11 @@ The feature extracter is (dense121)[https://arxiv.org/abs/1608.06993]. The class
 
 ### Predicted Result
 
-
 # Discussion
 
 ## Accuracy Measure
 
 ## Feature Extracter
-
 
 # Material
 

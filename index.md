@@ -41,6 +41,8 @@ In general, accuracy for lighting evaluation can be tricky to evaluate. We use L
 
  - JPG Model
 
+  
+
  - EXR Model
 
 
@@ -55,7 +57,7 @@ In general, accuracy for lighting evaluation can be tricky to evaluate. We use L
 
 ### Feature Extractor
 
-Although this project is not aimmed at testing different feature extractor, we also tried another feature extractor, [wide residual network 50-2 (WRN)](https://arxiv.org/pdf/1605.07146.pdf). However, WRN is more computationally expensive (takes much longer to train) and yields much worse result than dense net. Therefore, we eventually stick to our initial choice. 
+Although this project is not aimmed at testing different feature extractors, we also tried another feature extractor, [wide residual network 50-2 (WRN)](https://arxiv.org/pdf/1605.07146.pdf). However, WRN is more computationally expensive (takes much longer to train) and yields much worse result than dense net. Therefore, we eventually stick to our initial choice. 
 
 ## Material
 

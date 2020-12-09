@@ -13,61 +13,78 @@ Illumination prediction is a crutial component for augmented reality (AR) and mi
  - Deep learning based
  - Simplified parametric estimation
 
-## Environment Specification
 
- - GPUs:  
- - Libraries
-  - 
+### Network Architecture
 
-## Network Architecture
+The feature extractor is [dense121](https://arxiv.org/abs/1608.06993). The classification layer is replaced with two linear layers with a Relu activation between them. The output of the naive JPG model is different from that of the EXR model. The JPG model assumes there are three light sources in the environment map of an input image. 
 
-The feature extracter is (dense121)[https://arxiv.org/abs/1608.06993]. The classification layer is replaced with two linear layers with Relu activation between them. The output consists of three light sources.
-
-## Data and Preprocess
+### Data and Preprocess
 
  - Dataset
  - Labeling process
 
-## Training
+### Training
+
+  - choice of weights
+  - ...
+
+## Result
+
+
+
+### Labeler
+
+
+### Accuracy
+
+In general, accuracy for lighting evaluation can be tricky to evaluate. We use L2 distances with a predefined threshold to evaluate our model quantitatively. In particular, both the location and the RGB value of a given light source are evaluated separately with a corresponding threshold respectively. However, as threshold based methods are susceptible to the limitations, we provide sensitivity analysis for our results. 
+
+ - JPG Model
+
+ - EXR Model
+
+
+### Rendering Examples
+
+
+## Discussion
+
+### Accuracy Measure
+
+
+
+### Feature Extractor
+
+Although this project is not aimmed at testing different feature extractor, we also tried another feature extractor, [wide residual network 50-2 (WRN)](https://arxiv.org/pdf/1605.07146.pdf). However, WRN is more computationally expensive (takes much longer to train) and yields much worse result than dense net. Therefore, we eventually stick to our initial choice. 
+
+## Material
+
+### Project Proposal
+
+### Mid-term Report
+
+## Reference
+
+
+
+## Training Details
+
+### Environment Specification
+ - Dependencies: 
 
 ### Parameter Setting
 
- - Optimizer:
- - Learning rate: 
- - Batch size: 
- - 
+ - Optimizer: [SGD](https://pytorch.org/docs/stable/optim.html?highlight=sgd#torch.optim.SGD)
+ - Learning rate: 0.001
+ - Momentum: 0.9
+ - Batch size: 16 
+ - Model type: float
 
 ### Network reference
 
- - Time for training with fine tune: 
- - Time for training without fine tune: 
- - network (reference)[https://github.com/xiaoxi-s/Illumination-Prediction/blob/main/checkpoint/model_epoch_20_res_360x240]
-
-
-# Result
-
-## Accuracy
-
-## Rendering Examples
-
-### Ground Truth
-
-### Predicted Result
-
-# Discussion
-
-## Accuracy Measure
-
-## Feature Extracter
-
-# Material
-
-## Project Proposal
-
-## Mid-term Report
-
-# Reference
-
+ - Time for training with fine tune: 6.4 min/epoch
+ - Time for training without fine tune: 2.7 min/epoch
+ - network [reference](https://github.com/xiaoxi-s/Illumination-Prediction/blob/main/checkpoint/model_epoch_20_res_360x240)
 
 
 # Welcome to GitHub Pages

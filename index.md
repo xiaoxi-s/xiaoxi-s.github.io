@@ -1,12 +1,11 @@
 # Overview
-
+=====
 Illumination prediction is a crutial component for augmented reality (AR) and mixed reality (MR) to produce expected virtual objects and scenes. 
 
  - importance, application
  - complexity
 
 # State of Art
- 
 
 # Our Approach
 
@@ -31,7 +30,6 @@ The feature extractor is [dense121](https://arxiv.org/abs/1608.06993). The class
 ## Result
 
 
-
 ### Labeler
 
 
@@ -39,13 +37,15 @@ The feature extractor is [dense121](https://arxiv.org/abs/1608.06993). The class
 
 In general, accuracy for lighting evaluation can be tricky to evaluate. We use L2 distances with a predefined threshold to evaluate our model quantitatively. In particular, the location and the RGB value of a given light source are evaluated separately with their corresponding thresholds. However, as threshold based methods are susceptible to the limitations, we provide sensitivity analysis for our EXR model. 
 
- - JPG Model: Our JPG model achieves 18% accuracy when predicting the location of the light source given a threshold of 100 pixel distance. For predicting the RGB value, our JPG model achieves 89% accuracy given that the l2 norm of the predicted RGB value must be less than 100. The figure below shows the peformance on the test set. 
+ - JPG Model: Our JPG model achieves around 18% accuracy when predicting the location of the light source given a threshold of 100 pixel distance. For predicting the RGB value, our JPG model achieves 85% accuracy given that the l2 norm of the predicted RGB value must be less than 100. The figure below shows the peformance on the test set. 
 
-  ![JPG Color Accuracy](https://github.com/xiaoxi-s/Illumination-Prediction/blob/main/figures/03-12-2020_07-07-37_epoch-color-acc_no_fine_tune_warped.png)
+  <p align="center">
+  <img src="figures/accuracy/03-12-2020_07-07-37_epoch-color-acc_no_fine_tune_warped.png" alt="JPG Color Accuracy" width="300" height="" style="border:0px;margin:10px;float:center">
+  
+  <img src="figures/accuracy/03-12-2020_07-07-37_epoch-loc-acc_no_fine_tune_warped.png" alt="JPG Location Accuracy" width="300" height="" style="border:0px;margin:10px;float:center">
+  </p>
+  <br>
 
-  ![JPG Location Accuracy](https://github.com/xiaoxi-s/Illumination-Prediction/blob/main/figures/03-12-2020_07-07-37_epoch-loc-acc_no_fine_tune_warped.png)
-
- - EXR Model: For
 
 #### Sensitivity Analysis for EXR model
 

@@ -17,12 +17,15 @@
 
 ### Network Architecture
 
-  The feature extractor is [dense121](https://arxiv.org/abs/1608.06993). The classification layer is replaced with two linear layers with a Relu activation between them. The output of the naive JPG model is different from that of the EXR model. The JPG model assumes there are three light sources in the environment map of an input image where each is specified by 8 parameters. Because of the improved labeler, the EXR model assumes there are six light sources where each is specified by five parameters. 
+  The feature extractor is [dense121](https://arxiv.org/abs/1608.06993). The classification layer is replaced with two linear layers with a Relu activation between them. The output of the naive JPG model is different from that of the EXR model. The JPG model assumes there are three light sources in the environment map of an input image where each is specified by 8 parameters. Because of the improved labeler, which we would describe below, the EXR model assumes there are six light sources where each is specified by five parameters. 
 
-### Dataset and Preprocess
+### Dataset
 
-  - Dataset
-  - Labeling process
+  We use [the Laval Indoor HDR Dataset](http://indoor.hdrdb.com/). The dataset contains over 2100+ high resolution indoor panoramas.
+
+### Preprocess
+
+  Labeling process
 
 ### Training and Approaches to Improve performance
 
@@ -30,7 +33,7 @@
 
   The approaches we have tried to improve the performance of our model are listed in the following. We would discuss loss function in more detail and provide a short description of the results of other approaches.
 
-  - Loss function: Use cosine loss function for coordinate prediction instead of l2 norm. 
+  - Loss function: Use cosine loss function for spherical coordinate prediction instead of l2 norm. 
   - Use different weights for location and RGB value. However, the range of the RGB values in EXR files is small; this method shows no improvement in overall performance. 
   - Scale the image intensities of the EXR files. 
   - Try different input size: (360, 540) & (240, 480). With input size of (360, 540), our model shows a slightly better performance. 
@@ -40,11 +43,9 @@
 
   In general, accuracy for lighting evaluation can be tricky to evaluate. We use L2 distances with a predefined threshold to evaluate our model quantitatively. In particular, the location and the RGB value of a given light source are evaluated separately with their corresponding thresholds. However, as threshold based methods are limited to the choice of thresholds, we provide sensitivity analysis for our EXR model to determine the effects of different thresholds. 
 
-#### Sensitivity Analysis
-
-  For the EXR model, we provide sensitivity analysis for its performance. 
-
-  Specifically, sensitivity analysis includes the following steps:
+### Sensitivity Analysis for the EXR model
+  
+  The sensitivity analysis includes the following steps:
 
   - Determine a step size and a "reasonable" range of the parameter, in this case, the threshold for counting accuracy. 
   - Quantize the range with the step size to generate a sequence of thresholds. 
@@ -56,7 +57,7 @@
 
 ## Result
 
-  In this section, we would provide the results of the preprocessing (labeling), evaluation of both the JPG and EXR model, and rendering examples. 
+  In this section, we would provide the results of the preprocessing, evaluation of both the JPG and EXR model, and rendering examples. 
 
 ### Labeler
 
@@ -83,7 +84,7 @@ The model reference is [here]()
 
   As the threshold increases, which means the tolerance level increases, the accuracy also increases. In addition, the EXR model predicts color more accurately than position because given the reasonable range of thresholds, color accuracy is greater than location accuracy.
 
-  The model reference is [here]()
+  The model reference is [here](https://github.com/xiaoxi-s/Illumination-Prediction).
 
 ### Rendering Examples
 
@@ -93,11 +94,15 @@ The model reference is [here]()
 
 ### Loss Function for Coordinate Prediction
 
-  Cosine loss function could be used for coordinate prediction of a light source. But this does not give us better performance. 
+  Cosine loss function could be used for spherical coordinate prediction of a light source. Nevertheless, this does not give us better performance. One possible explanation is that, with cosine loss function, there are infinitely many correct labels that the network could map a given input image to. It would be much more difficult for the neural network to learn infinitely many correct labels with only finitely many parameters. 
+
+  In addition, even with cosine function, the model could predict one correct label in the range \[100pi, 102pi\], and other labels might be within \[0, 2pi\]. The parameters for predicting the special label that lies in [100pi, 102pi] might not be used for predicting other labels within \[0, 2pi\] because the interval \[100pi, 102pi\] is larger in scale. Therefore, cosine loss function might deteriorate parameters sharing.
 
 ### Sensitivity Analysis
 
   Sensitivity analysis is an effective method to evaluate threshold based methods. The better performance of color prediction might imply that the feature extractor pays more attention to color information. The [dense121](https://arxiv.org/abs/1608.06993) is trained for classification, thus color information is an important feature of a particular object or pattern. The feature extractor would try to capture color information to imporve classification performance. However, the location information of a particular object or pattern, which is needed in our project, might not be extracted probably because location information is less important for classification tasks. For example, a cat is a cat no matter where it is in the given image. That is, the location information does not provide much information for classification. 
+
+  Therefore, the above explanation implies a given pre-trained model might not encode necessary information of other tasks, and more (accurate) samples might be needed to fine tune the pre-trained model. 
 
 ### Feature Extractor
 
@@ -127,7 +132,13 @@ The model reference is [here]()
 ## Training Details
 
 ### Environment Specification
- - Dependencies: 
+
+Dependencies: 
+  - Conda
+  - Python3.7
+  - PyTorch
+  - Numpy
+  - OpenCv
 
 ## Parameter Setting
 

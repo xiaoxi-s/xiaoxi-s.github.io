@@ -1,11 +1,28 @@
 ## Overview
 ======
 
-????
+Illumination prediction is a crucial component for augmented reality (AR) and mixed reality (MR) to produce virtual objects emulating optical physics. It is challenging to predict a mapping from a partial scene application to a complete illumination map for a scene. This is because a lot of the illumination in many scenes are incomplete, and it is difficult to infer from partial data.
+
+Illumination prediction is important because it can be used to render images in augmented reality or create realistic shadow and lighting models of virtual objects in movies. It can also render models of houses to attempt to accurately portray real illumination physics.
+
+Because humans do not need much image resolution to figure out a light source, we would like to solve illumination problems with low-resolution images.
+
+
+The purpose of the proposal is simple: to estimate lighting information on Augmented Reality Devices. 
+
+The first part utilizes a pretrained network and then the second part uses a Blender to make real-time predictions possible. There is a preprocessing step where each image resolution is reduced, and an algorithm finds the connected components of light pixels.
+
+We trained this set using a convolutional neural network. Finally, we convert the light coordinates into spherical coordinates, and render the panorama images.
 
 ## State-of-Art
 
-????
+Researchers performed multiple illumination prediction experiments in the past. One way that some researchers from Universite Laval discovered was to represent lighting as a set of 3D Lights with brightness and geometric parameters, and train this through deep neural networks, using a dataset of environment maps. A unique set of differentiable layers generates a unique sigmoid function to evaluate the work, leading to more accurate results.
+
+There was also a study that inferred a high-level illumination prediction from a low-level dynamic range photograph. Researchers trained to annotate light sources, and these annotations are used to train a deep neural network, and the network is fine tuned.
+
+A third experiment involved trying to infer a high dynamic range result (HDR) from a low dynamic range image with a mobile phone camera using a limited Field of View (FOV). Videos were collected with lighting using reflective spheres, and the researchers train a deep neural network to predict what the reflective spheres will appear upon being reflected on an unknown surface. 
+
+
 
 ## Our Approach
 
@@ -50,13 +67,11 @@
 
   - Evaluation: 
 
-    We rendered a chair using this environment map as a light source in Blender as our ground truth. It is generated using the path trace algorithm and takes 2 minutes to render. 
+     We rendered a chair using this environment map as a light source in Blender as our ground truth. It is generated using the path trace algorithm and takes 2 minutes to render. 
 
     Ground Truth | Naive Approach
     ------------ | ------------- 
     ![Ground_truth](./figures/labeling/Ground_Truth.png)| ![N_preprocess_result](./figures/labeling/N_preprocess_result.png)
-
-
     we think this result have several artifacts 
     1. One of the considerable contributors to realism is shadows. We can observe the chair's shadows in the ground truth, but there is only a little shadow very close to the leg. As a comparison, the shadow of the rubbish bin is obvious and contribute a lot to the realistic look of that object
     2. Too much information is lost when using the Uint8 representation. Many bright lights saturated at their maximum value, so we cannot compare which light is more luminous. Moreover, the color of the lights is lost during the conversion. For example, we can see the orange light on the leg, coming from the orange door on the left. The intensity of this light is surely less than the intensity of the lights at the ceiling. However, they are saturated at the maximum brightness (255), and the comparison yields wrong results.
@@ -64,21 +79,7 @@
     4. The bright part of this render is too bright, and the dark part is too dark. The surface of the chair loses all information about its geometry. On the contrary, the junction between the chair body and the legs are too dark. 
     5. Subjectively, we don't think this is great. We sent this image to some of our friends and asked them to rate the realism. Most of them rated it as "it looks fake but acceptable." On the other hand, all of them rate the ground truth better than the rendered result using the naive approach. 
 
-  #### Advanced approach
-  With all the artifacts in our naive approach, we looked for a new labeler and probably new types of lights. we took a closer look at our datasets and found two key observations 
-  1. The number of visible shadows of an object usually is not more than 5. Since more distant lights are less significant and will cause shallow shadows. Also, they are closer together in the object's perspective. Our brain will try to merge these shadows rather than distinguish them. Therefore using a few directional lights can capture the strongest and closest lights and generate the visible shadows
-  2. The darker side of any object is not entirely dark. Various indirect lights (such as reflections from the wall) will light them up. These lights are typically large and in the opposite direction of the strongest lights. Using point lights can capture these effects well.
-  ![A_preprocess_observation](./figures/labeling/A_preprocess_observation.png) 
-  With those in mind, we created a new labeler. This labeler will use Exr files(float32) to capture the HDR information in the environment map. It will find three directional lights and 3 point lights with different criteria.
-  ##### Steps
-  - Create the significance map with brightness thresholds. The high threshold can capture the lights that cause shadows. The Lower threshold can capture indirect lights. The pixels in the high threshold map will be removed from the low threshold map.
 
-  High Threshold | Low Threshold |Low Threshold map - High Threshold map
-  ------------ | -------------| -------------
-  ![A_preprocess_high1](./figures/labeling/A_preprocess_high1.jpg)|![A_preprocess_low1](./figures/labeling/A_preprocess_low1.jpg) |![A_preprocess_afterHL](./figures/labeling/A_preprocess_afterHL1.jpg) 
-
-  - Similar way of finding connected components is used. However, there is no size requirement for directional lights. A header LED light might appears to be very small in the environment map. There is a minimum size requirement for the indirect lights to be significant
-  - Adjust the threshold to find precisely three significant light and three indirect lights
 
   High Threshold Last iteration| Low Threshold Last iteration| Adjusted Low Threshold Map Last iteration
   ------------ | -------------| -------------
@@ -235,10 +236,13 @@
   - [Project Proposal]()
   - [Midterm Report](material\midterm-report.pdf)
 
-## Reference
+## References
 
   - Marc-André Gardner, Kalyan Sunkavalli, Ersin Yumer, Xiaohui Shen, Emiliano Gambaretto, Christian Gagné, and Jean-François Lalonde Learning to Predict Indoor Illumination from a Single Image ACM Transactions on Graphics (SIGGRAPH Asia), 9(4), 2017
   - Gardner, Marc-André, et al. Deep Parametric Indoor Lighting Estimation. arXiv:1910.08812 \[cs\], 2019, Oct. arXiv.org, http://arxiv.org/abs/1910.08812.
+  - Chloe LeGendre, Wan-Chun Ma, Graham Fyffe, John Flyn, Laurent Charbonnel, Jay Busch, and Paul Debevec DeepLight: Learning Illumination for Unconstrained Mobile Mixed Reality (CVPR_2019), 2019 
+	https://openaccess.thecvf.com/content_CVPR_2019/papers/LeGendre_DeepLight_Learning_Illumination_for_Unconstrained_Mobile_Mixed_Reality_CVPR_2019_paper.pdf
+
 
 ## Training Details
 

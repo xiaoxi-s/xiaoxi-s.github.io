@@ -257,7 +257,7 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
   We only assume a ground plane, and this is the only geometry our object will interact with. The real world is much more complicated than this simple model. However, We kept our scope in only estimating lighting conditions at the camera's location, and our result can be used in conjunction with other AR software to predict the geometer, etc. We believe it will yield better results after combining scenes information
 
 ## Material
-  - [Project Proposal]()
+  - [Project Proposal](material\Final-Project-Proposal.pdf)
   - [Midterm Report](material\midterm-report.pdf)
 
 ## References

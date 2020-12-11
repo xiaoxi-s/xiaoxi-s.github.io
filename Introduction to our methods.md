@@ -22,7 +22,7 @@ We use JPG/(uint8) as the data format
 - In the final step, our algorithm would draw a minimum area rectangle that surrounds each light source. The parameters defining the minimum area rectangle would also define the parameters for an ellipse. We would use the parameters as the label for each light source. 
 ![N_walk_through_Result](./figures/labeling/N_preprocess_label.png)
 - Evaluation: 
-    - We rendered a chair using this environment map as a background in Blender. This is generated using path trace algorithm and takes 20 seconds to calculate. We considered it as the ground truth. 
+    We rendered a chair using this environment map as a background in Blender. This is generated using path trace algorithm and takes 20 seconds to calculate. We considered it as the ground truth. 
 
     Ground Truth | Naive Approach
     ------------ | ------------- 

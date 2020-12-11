@@ -22,11 +22,47 @@
 
 ### Dataset
 
-  We use [the Laval Indoor HDR Dataset](http://indoor.hdrdb.com/). The dataset contains over 2100+ high resolution indoor panoramas.
+  We are using the [The Laval HDR databases](http://indoor.hdrdb.com/). It contains 2100+ high resolution indoor panoramas. Here are some examples: (Tone-mapped back gamma color space, 8 bit color)
 
-### Preprocess
+  ![Sample_env_map1](./figures/labeling/Preprocess_sample_env_map1.png)
+  ![Sample_env_map2](./figures/labeling/Preprocess_sample_env_map2.png)
 
-  ????
+### Labeling process
+
+  This preprocess stage's primary goal is to develop a realistic representation of lights coming to the camera. The representation will be used to render inserted objects. Though we have the environment map as a potential light source, it is impossible to use it in real time render engines. Therefore, we use directional light, point light, or area light, which are accepted by most of the engines. We first developed a naive translation between map and lights based on the original paper. Then we improve the labeling process by only use directional and point light.
+
+  **We will illustrate the labeling process by this example**
+  ![N_walk_through_original](./figures/labeling/N_preprocess_original.png)
+ 
+  #### Naive approach using JPG Environment map/(uint8)
+  - The brightest parts in the environment map are usually the most significant light sources when rendering virtual objects. We use a simple threshold method to find them. The extreme intensity is defined as the maximum pixel value after summing up the values along the channel axis. We extract the maximum value in the environment map and set the threshold at 10%. Any parts above that are considered as "bright enough." Here are the significant parts in this map
+
+  ![N_walk_through_threshold](./figures/labeling/N_preprocess_thres.png)
+  - Then we find the connected component in this map. We use `measure.label()` in OpenCV and sort them based on their size and brightness. If a component is smaller than 300 pixels, it will be discarded. Here are some parts we extracted.
+
+  Strongest | Largest
+  --|--
+  ![N_walk_through_Connected1](./figures/labeling/N_preprocess_connected1.png) | ![N_walk_through_Connected2](./figures/labeling/N_preprocess_connected2.png)
+
+
+  - Our algorithm would draw a minimum area rectangle that surrounds each light source in the final step. The parameters defining the minimum area rectangle would also define the parameters for an ellipse. We would use the parameters as the label for each light source. 
+  ![N_walk_through_Result](./figures/labeling/N_preprocess_label.png)
+
+  - Evaluation: 
+
+     We rendered a chair using this environment map as a light source in Blender as our ground truth. It is generated using the path trace algorithm and takes 2 minutes to render. 
+
+    Ground Truth | Naive Approach
+    ------------ | ------------- 
+    ![Ground_truth](./figures/labeling/Ground_Truth.png)| ![N_preprocess_result](./figures/labeling/N_preprocess_result.png)
+    we think this result have several artifacts 
+    1. One of the considerable contributors to realism is shadows. We can observe the chair's shadows in the ground truth, but there is only a little shadow very close to the leg. As a comparison, the shadow of the rubbish bin is obvious and contribute a lot to the realistic look of that object
+    2. Too much information is lost when using the Uint8 representation. Many bright lights saturated at their maximum value, so we cannot compare which light is more luminous. Moreover, the color of the lights is lost during the conversion. For example, we can see the orange light on the leg, coming from the orange door on the left. The intensity of this light is surely less than the intensity of the lights at the ceiling. However, they are saturated at the maximum brightness (255), and the comparison yields wrong results.
+    3. The rendering cannot be done in real-time. Area lights need to be baked in most of the render engines. So we cannot use it in real-time AR applications. 
+    4. The bright part of this render is too bright, and the dark part is too dark. The surface of the chair loses all information about its geometry. On the contrary, the junction between the chair body and the legs are too dark. 
+    5. Subjectively, we don't think this is great. We sent this image to some of our friends and asked them to rate the realism. Most of them rated it as "it looks fake but acceptable." On the other hand, all of them rate the ground truth better than the rendered result using the naive approach. 
+
+
 
 ### Training and Approaches to Improve performance
 

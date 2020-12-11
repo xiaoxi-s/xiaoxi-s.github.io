@@ -52,6 +52,7 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
   ![N_walk_through_original](./figures/labeling/N_preprocess_original.png)
  
 #### Naive approach using JPG Environment map/(uint8)
+
   - The brightest parts in the environment map are usually the most significant light sources when rendering virtual objects. We use a simple threshold method to find them. The extreme intensity is defined as the maximum pixel value after summing up the values along the channel axis. We extract the maximum value in the environment map and set the threshold at 10%. Any parts above that are considered as "bright enough." Here are the significant parts in this map
 
   ![N_walk_through_threshold](./figures/labeling/N_preprocess_thres.png)
@@ -89,7 +90,7 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
 
   - Averages of these pixels are calculated in spherical coordinates. The color of the light is the average of all the pixels
 
-##### Results
+#### Results
 
   Ground Truth | Naive Approach | Advanced Approach
   ------------ | ------------- | ------------- 
@@ -103,14 +104,18 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
 ### Data Generation
 
 #### Cropping
+
   Our goal is predicting the scene's illumination from a single image, so we need to generate a normal image from the environment map. We used a very simple algorithm to take a picture in the environment map. 
   ![Data_preparation_explain](./figures/labeling/Datapre_explain.png)
   Here are some examples from our cropper
   ![Data_preparation_cropper_example1](./figures/labeling/Datapre_cropEx1.jpg) ![Data_preparation_cropper_example1](./figures/labeling/Datapre_cropEx2.jpg)
+
 #### Labels rotation
+
   To prevent the orientation of the camera affecting the result, we translate all labels into the camera's coordinate. 
 
 #### Examples
+
   Here are some rendering examples from the data we used for training
 
   Rendering setup.
@@ -227,11 +232,6 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
 ### Geometry and occlusion in the scene
   
   We only assume a ground plane, and this is the only geometry our object will interact with. The real world is much more complicated than this simple model. However, We kept our scope in only estimating lighting conditions at the camera's location, and our result can be used in conjunction with other AR software to predict the geometer, etc. We believe it will yield better results after combining scenes information
-  
-## What We Learned
-
-  - Large dataset is challenging.
-  - ...
 
 ## Material
   - [Project Proposal]()

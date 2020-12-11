@@ -60,7 +60,7 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
 
   Strongest | Largest
   --|--
-  ![N_walk_through_Connected1](./figures/labeling/N_preprocess_connected1.png) | ![N_walk_through_Connected2](./figures/labeling/N_preprocess_connected2.png)
+  <img src="figures/labeling/N_preprocess_connected1.png" alt="N_walk_through_Connected1" width="400" height="" style="border:0px;margin:10px;float"> | <img src="figures/labeling/N_preprocess_connected2.png" alt="N_walk_through_Connected2" width="400" height="" style="border:0px;margin:10px;float">
 
 
   - Our algorithm would draw a minimum area rectangle that surrounds each light source in the final step. The parameters defining the minimum area rectangle would also define the parameters for an ellipse. We would use the parameters as the label for each light source. 

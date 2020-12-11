@@ -82,7 +82,7 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
     5. Subjectively, we don't think this is great. We sent this image to some of our friends and asked them to rate the realism. Most of them rated it as "it looks fake but acceptable." On the other hand, all of them rate the ground truth better than the rendered result using the naive approach. 
 
 
- #### Advanced approach
+#### Advanced approach
 
   With all the artifacts in our naive approach, we looked for a new labeler and probably new types of lights. we took a closer look at our datasets and found two key observations 
   1. The number of visible shadows of an object usually is not more than 5. Since more distant lights are less significant and will cause shallow shadows. Also, they are closer together in the object's perspective. Our brain will try to merge these shadows rather than distinguish them. Therefore using a few directional lights can capture the strongest and closest lights and generate the visible shadows
@@ -141,8 +141,9 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
 
   Examples - Classroom | Examples - Home
   ------------ | -------------
-  ![](./figures/labeling/1_labeled.png)|![](./figures/labeling/29_labeled.png)
-  ![](./figures/labeling/17_labeled.png) |![](./figures/labeling/25_Labeled.png) 
+  <img src="figures/labeling/1_labeled.png" width="400" height="">|<img src="figures/labeling/29_labeled.png" width="400" height="">
+  <img src="figures/labeling/17_labeled.png" width="400" height="">|<img src="figures/labeling/25_Labeled.png" width="400" height="">
+
  
 ### Post-Processing
 
@@ -212,10 +213,10 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
 
   With Labels | With Predicted Outputs
   ------------ | -------------
-  ![](./figures/labeling/1_labeled.png)| ![](./figures/result/1_predicted.png)
-  ![](./figures/labeling/17_labeled.png) | ![](./figures/result/17_predicted.png)
-  ![](./figures/labeling/29_labeled.png) | ![](./figures/result/29_predicted.png)
-  ![](./figures/labeling/25_Labeled.png) | ![](./figures/result/25_Predicted.png)
+  <img src="figures/labeling/1_labeled.png" width="400" height="">|<img src="figures/result/1_predicted.png" width="400" height="">
+  <img src="figures/labeling/17_labeled.png" width="400" height="">|<img src="figures/result/17_predicted.png" width="400" height="">
+  <img src="figures/labeling/29_labeled.png" width="400" height="">|<img src="figures/result/29_predicted.png" width="400" height="">
+  <img src="figures/labeling/25_Labeled.png" width="400" height="">|<img src="figures/result/25_Predicted.png" width="400" height="">
 
 
 ## Discussion

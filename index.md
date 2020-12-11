@@ -1,11 +1,29 @@
 ## Overview
 ======
 
-????
+Illumination prediction is a crucial component for augmented reality (AR) and mixed reality (MR) to produce virtual objects emulating optical physics. It is challenging to predict a mapping from a partial scene application to a complete illumination map for a scene. This is because a lot of the illumination in many scenes are incomplete, and it is difficult to infer from partial data.
+
+Illumination prediction is important because it can be used to render images in augmented reality or create realistic shadow and lighting models of virtual objects in movies. It can also render models of houses to attempt to accurately portray real illumination physics.
+
+Because humans do not need much image resolution to figure out a light source, we would like to solve illumination problems with low-resolution images.
+
+We have come up with reasonably effective ways to predict lighting using incomplete pictures of sources. 
+
+The purpose of the proposal is simple: to estimate lighting information on Augmented Reality Devices. 
+
+The first part utilizes a pretrained network and then the second part uses a Blender to make real-time predictions possible. There is a preprocessing step where each image resolution is reduced, and an algorithm finds the connected components of light pixels.
+
+We trained this set using a convolutional neural network. Finally, we convert the light coordinates into spherical coordinates, and render the panorama images.
 
 ## State-of-Art
+Researchers performed multiple illumination prediction experiments in the past. One way that some researchers from Universite Laval discovered was to represent lighting as a set of 3D Lights with brightness and geometric parameters, and train this through deep neural networks, using a dataset of environment maps. A unique set of differentiable layers generates a unique sigmoid function to evaluate the work, leading to more accurate results.
 
-????
+There was also a study that inferred a high-level illumination prediction from a low-level dynamic range photograph. Researchers trained to annotate light sources, and these annotations are used to train a deep neural network, and the network is fine tuned.
+
+A third experiment involved trying to infer a high dynamic range result (HDR) from a low dynamic range image with a mobile phone camera using a limited Field of View (FOV). Videos were collected with lighting using reflective spheres, and the researchers train a deep neural network to predict what the reflective spheres will appear upon being reflected on an unknown surface. 
+
+All the results in these experiments outperform previous state-of-the-art algorithms in illumination detection and accuracy classification.
+
 
 ## Our Approach
 

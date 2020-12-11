@@ -7,7 +7,6 @@ Illumination prediction is important because it can be used to render images in 
 
 Because humans do not need much image resolution to figure out a light source, we would like to solve illumination problems with low-resolution images.
 
-We have come up with reasonably effective ways to predict lighting using incomplete pictures of sources. 
 
 The purpose of the proposal is simple: to estimate lighting information on Augmented Reality Devices. 
 

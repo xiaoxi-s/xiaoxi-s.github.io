@@ -60,7 +60,7 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
 
   Strongest | Largest
   --|--
-  <img src="figures/labeling/N_preprocess_connected1.png" alt="N_walk_through_Connected1" width="200" height=""> | <img src="figures/labeling/N_preprocess_connected2.png" alt="N_walk_through_Connected2" width="200" height="" >
+  <img src="figures/labeling/N_preprocess_connected1.png" alt="N_walk_through_Connected1" width="400" height=""> | <img src="figures/labeling/N_preprocess_connected2.png" alt="N_walk_through_Connected2" width="400" height="" >
 
 
   - Our algorithm would draw a minimum area rectangle that surrounds each light source in the final step. The parameters defining the minimum area rectangle would also define the parameters for an ellipse. We would use the parameters as the label for each light source. 
@@ -72,7 +72,7 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
 
     Ground Truth | Naive Approach
     ------------ | ------------- 
-    <img src="figures/labeling/Ground_Truth.png" alt="Ground_truth" width="200" height=""> | <img src="figures/labeling/N_preprocess_result.png" alt="N_preprocess_result" width="200" height="" >
+    <img src="figures/labeling/Ground_Truth.png" alt="Ground_truth" width="400" height=""> | <img src="figures/labeling/N_preprocess_result.png" alt="N_preprocess_result" width="400" height="" >
 
     we think this result have several artifacts 
     1. One of the considerable contributors to realism is shadows. We can observe the chair's shadows in the ground truth, but there is only a little shadow very close to the leg. As a comparison, the shadow of the rubbish bin is obvious and contribute a lot to the realistic look of that object
@@ -96,14 +96,14 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
 
   High Threshold | Low Threshold |Low Threshold map - High Threshold map
   ------------ | -------------| -------------
-  ![A_preprocess_high1](./figures/labeling/A_preprocess_high1.jpg)|![A_preprocess_low1](./figures/labeling/A_preprocess_low1.jpg) |![A_preprocess_afterHL](./figures/labeling/A_preprocess_afterHL1.jpg) 
+  <img src="figures/labeling/A_preprocess_high1.jpg" alt="A_preprocess_high1" width="300" height=""> |<img src="figures/labeling/A_preprocess_low1.jpg" alt="A_preprocess_low1" width="300" height=""> | <img src="figures/labeling/A_preprocess_afterHL1.jpg" alt="A_preprocess_afterHL" width="300" height=""> 
 
   - Similar way of finding connected components is used. However, there is no size requirement for directional lights. A header LED light might appears to be very small in the environment map. There is a minimum size requirement for the indirect lights to be significant
   - Adjust the threshold to find precisely three significant light and three indirect lights
 
   High Threshold Last iteration| Low Threshold Last iteration| Adjusted Low Threshold Map Last iteration
   ------------ | -------------| -------------
-  <img src="figures/labeling/A_preprocess_high4.jpg" alt="A_preprocess_high_final" width="200" height=""> |<img src="figures/labeling/A_preprocess_low4.jpg" alt="A_preprocess_low_final" width="200" height=""> | <img src="figures/labeling/A_preprocess_afterHL4.jpg" alt="A_preprocess_afterHL_final" width="200" height=""> 
+  <img src="figures/labeling/A_preprocess_high4.jpg" alt="A_preprocess_high_final" width="300" height=""> |<img src="figures/labeling/A_preprocess_low4.jpg" alt="A_preprocess_low_final" width="300" height=""> | <img src="figures/labeling/A_preprocess_afterHL4.jpg" alt="A_preprocess_afterHL_final" width="300" height=""> 
 
 
   - Averages of these pixels are calculated in spherical coordinates. The color of the light is the average of all the pixels
@@ -112,7 +112,7 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
 
   Ground Truth | Naive Approach | Advanced Approach
   ------------ | ------------- | ------------- 
-  ![Ground_truth](./figures/labeling/Ground_Truth.png)| ![N_preprocess_result](./figures/labeling/N_preprocess_result.png)| ![A_preprocess_result](./figures/labeling/A_preprocess_result.png)
+  <img src="figures/labeling/Ground_Truth.png" alt="Ground_truth" width="300" height=""> |<img src="figures/labeling/N_preprocess_result.png" alt="N_preprocess_result" width="300" height=""> | <img src="figures/labeling/A_preprocess_result.png" alt="A_preprocess_result" width="300" height=""> 
 
 
   We believed that this is an acceptable approximation of the lighting condition in the environment. Using Exr and HDR images can preserve more accurate light information and find the brightest light correctly.  The chair's color is very similar, comparing with ground truth. The self-shadow on the back of the chair is preserved. No parts on the chair are too dark or too bright. More importantly, this is rendered in real-time.

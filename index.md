@@ -244,6 +244,10 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
 
   Although this project is not aimmed at testing different feature extractors, we tried another feature extractor, [wide residual network 50-2 (WRN)](https://arxiv.org/pdf/1605.07146.pdf). However, WRN is more computationally expensive (takes much longer to train) and yields much worse result than dense net. Therefore, we eventually stick to our initial choice. 
 
+### Rendered Results
+
+  The predicted colors matches the color in ground truth image. However, the position/rotation of the lights are not very accurate. An interesting observation is location prediction results are very similar to each other. We suspect the order of the lights affected the accuracy of the model. 
+ 
 ### Intensity of lights 
 
   Every rendering engine uses a different scale for the intensity of lights. Similarly, the intensity in the HDR image cannot be simply converted to the intensity of lights in Blender. Therefore, we can only extract the relative light information in the environment map. 

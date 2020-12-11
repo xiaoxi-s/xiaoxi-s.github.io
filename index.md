@@ -22,7 +22,7 @@
 
 ### Dataset
 
-  We are using the [The Laval HDR databases](http://indoor.hdrdb.com/). It contains 2100+ high resolution indoor panoramas. Here are some examples: (Tone-mapped back gamma color space, 8 bit color)
+  We are using the [The Laval HDR databases](http://indoor.hdrdb.com/). It contains 2100+ high resolution indoor panoramas. Each panorama has the resolution of 3884x7768. The total size of the dataset is over 150 GB. Here are some examples: (Tone-mapped back gamma color space, 8 bit color)
 
   ![Sample_env_map1](./figures/labeling/Preprocess_sample_env_map1.png)
   ![Sample_env_map2](./figures/labeling/Preprocess_sample_env_map2.png)
@@ -128,7 +128,6 @@
 
 ????
 
-
 ## Discussion
 
 ### Loss Function for Coordinate Prediction
@@ -143,16 +142,16 @@
 
   Therefore, the above explanation implies a given pre-trained model might not encode necessary information of other tasks, and more (accurate) samples might be needed to fine tune the pre-trained model. 
 
-### Feature Extractor
-
-  Although this project is not aimmed at testing different feature extractors, we tried another feature extractor, [wide residual network 50-2 (WRN)](https://arxiv.org/pdf/1605.07146.pdf). However, WRN is more computationally expensive (takes much longer to train) and yields much worse result than dense net. Therefore, we eventually stick to our initial choice. 
-
 ### Thoughts about Performance
 
   We think there are reasons for the unideal predictions of our EXR model. 
 
   - The distribution of the dataset might not match the distribution expected by the feature extractor. The range of RGB values of EXR files is between \[0, 1\] and many values are within the range [0, 0.01]. As we want to preserve the information in EXR files, we have to manually scaling the input by a constant factor. Simple [normalization](https://pytorch.org/docs/stable/torchvision/transforms.html) implemented in PyTorch does not meet our need, and our transformation does not produce better results. 
-  - The EXR files are compressed to increase the training speed. The initial resolution is 3884x7768. We resize it to be 1024x2048. Such conversion might lead to less detailed information, thus the performance.
+  - The EXR files are compressed to increase the training speed. The original resolution is 3884x7768. We resize it to be 1024x2048. Such conversion might lead to less detailed information, thus the performance.
+
+### Feature Extractor
+
+  Although this project is not aimmed at testing different feature extractors, we tried another feature extractor, [wide residual network 50-2 (WRN)](https://arxiv.org/pdf/1605.07146.pdf). However, WRN is more computationally expensive (takes much longer to train) and yields much worse result than dense net. Therefore, we eventually stick to our initial choice. 
 
 ## What We Learned
 
@@ -178,7 +177,7 @@
   - Numpy
   - OpenCv
 
-### Parameter Setting
+### Hyperparameters
 
  - Optimizer: [SGD](https://pytorch.org/docs/stable/optim.html?highlight=sgd#torch.optim.SGD)
  - Learning rate: 0.001
@@ -190,4 +189,3 @@
 
  - Time for training with fine tune: 6.4 min/epoch
  - Time for training without fine tune: 2.7 min/epoch
- 

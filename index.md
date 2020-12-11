@@ -51,7 +51,7 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
   **We will illustrate the labeling process by this example**
   ![N_walk_through_original](./figures/labeling/N_preprocess_original.png)
  
-  #### Naive approach using JPG Environment map/(uint8)
+#### Naive approach using JPG Environment map/(uint8)
   - The brightest parts in the environment map are usually the most significant light sources when rendering virtual objects. We use a simple threshold method to find them. The extreme intensity is defined as the maximum pixel value after summing up the values along the channel axis. We extract the maximum value in the environment map and set the threshold at 10%. Any parts above that are considered as "bright enough." Here are the significant parts in this map
 
   ![N_walk_through_threshold](./figures/labeling/N_preprocess_thres.png)
@@ -72,7 +72,7 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
     Ground Truth | Naive Approach
     ------------ | ------------- 
     ![Ground_truth](./figures/labeling/Ground_Truth.png)| ![N_preprocess_result](./figures/labeling/N_preprocess_result.png)
-    
+
     we think this result have several artifacts 
     1. One of the considerable contributors to realism is shadows. We can observe the chair's shadows in the ground truth, but there is only a little shadow very close to the leg. As a comparison, the shadow of the rubbish bin is obvious and contribute a lot to the realistic look of that object
     2. Too much information is lost when using the Uint8 representation. Many bright lights saturated at their maximum value, so we cannot compare which light is more luminous. Moreover, the color of the lights is lost during the conversion. For example, we can see the orange light on the leg, coming from the orange door on the left. The intensity of this light is surely less than the intensity of the lights at the ceiling. However, they are saturated at the maximum brightness (255), and the comparison yields wrong results.
@@ -89,7 +89,7 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
 
   - Averages of these pixels are calculated in spherical coordinates. The color of the light is the average of all the pixels
 
-  ##### Results
+##### Results
 
   Ground Truth | Naive Approach | Advanced Approach
   ------------ | ------------- | ------------- 
@@ -102,15 +102,15 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
 
 ### Data Generation
 
-  #### Cropping
+#### Cropping
   Our goal is predicting the scene's illumination from a single image, so we need to generate a normal image from the environment map. We used a very simple algorithm to take a picture in the environment map. 
   ![Data_preparation_explain](./figures/labeling/Datapre_explain.png)
   Here are some examples from our cropper
   ![Data_preparation_cropper_example1](./figures/labeling/Datapre_cropEx1.jpg) ![Data_preparation_cropper_example1](./figures/labeling/Datapre_cropEx2.jpg)
-  #### Labels rotation
+#### Labels rotation
   To prevent the orientation of the camera affecting the result, we translate all labels into the camera's coordinate. 
 
-  #### Examples
+#### Examples
   Here are some rendering examples from the data we used for training
 
   Rendering setup.
@@ -121,7 +121,7 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
   ![](./figures/labeling/1_labeled.png)|![](./figures/labeling/29_labeled.png)
   ![](./figures/labeling/17_labeled.png) |![](./figures/labeling/25_Labeled.png) 
  
-  ### Post-Processing
+### Post-Processing
 
   In our assumption, we stated that we assume the camera's lighting condition should be very similar or the same as our virtual object. However, this assumption is highly possible to be violated. We have to insert the items in front of the camera, and the environment maps are taken in a relatively small room. Therefore objects slightly in front of the camera would possibly have a noticeable change in lighting conditions. On the other hand, 99% of our dataset's lights and real-life are at the ceiling.  We created a simple rotation mechanism to alleviate this issue: it will rotate all the lights upwards to approximate the distance between the camera and the object.
 
@@ -129,7 +129,7 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
 
   From this example, The lighting angle at the camera's position is very different from the object's position, and our assumption does not hold. With the rotation, the rendered result would be much more accurate. 
 
-  ### Training and Approaches to Improve performance
+### Training and Approaches to Improve performance
 
   We provide training details at the end of this website. 
 

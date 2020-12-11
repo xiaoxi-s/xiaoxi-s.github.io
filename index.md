@@ -118,8 +118,8 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
   Examples - Classroom | Examples - Home
   ------------ | -------------
   ![](./figures/labeling/1_labeled.png)|![](./figures/labeling/29_labeled.png)
-  ![](./figures/labeling/17_labeled.png) |![](./figures/labeling/25_labeled.png) 
-  -- | --
+  ![](./figures/labeling/17_labeled.png) |![](./figures/labeling/25_Labeled.png) 
+ 
   ### Post-Processing
 
     In our assumption, we stated that we assume the camera's lighting condition should be very similar or the same as our virtual object. However, this assumption is highly possible to be violated. We have to insert the items in front of the camera, and the environment maps are taken in a relatively small room. Therefore objects slightly in front of the camera would possibly have a noticeable change in lighting conditions. On the other hand, 99% of our dataset's lights and real-life are at the ceiling.  We created a simple rotation mechanism to alleviate this issue: it will rotate all the lights upwards to approximate the distance between the camera and the object.
@@ -191,8 +191,8 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
   ![](./figures/labeling/1_labeled.png)| ![](./figures/result/1_predicted.png)
   ![](./figures/labeling/17_labeled.png) | ![](./figures/result/17_predicted.png)
   ![](./figures/labeling/29_labeled.png) | ![](./figures/result/29_predicted.png)
-  ![](./figures/labeling/25_labeled.png) | ![](./figures/result/25_predicted.png)
-  --| --
+  ![](./figures/labeling/25_Labeled.png) | ![](./figures/result/25_Predicted.png)
+
 
 ## Discussion
 

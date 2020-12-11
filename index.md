@@ -1,14 +1,15 @@
 ## Overview
 ======
 
-  Illumination prediction is a crutial component for augmented reality (AR) and mixed reality (MR) to produce expected virtual objects and scenes. 
-
-  - Importance, application
-  - complexity
+????
 
 ## State-of-Art
 
+????
+
 ## Our Approach
+
+????
 
   - Deep learning based
   - Simplified parametric estimation
@@ -25,7 +26,7 @@
 
 ### Preprocess
 
-  Labeling process
+  ????
 
 ### Training and Approaches to Improve performance
 
@@ -61,6 +62,7 @@
 
 ### Labeler
 
+????
 
 ### Accuracy of the JPG Model
 
@@ -73,7 +75,7 @@
   </p>
   <br>
 
-The model reference is [here]()
+  The model reference is [here](https://github.com/xiaoxi-s/Illumination-Prediction/blob/main/checkpoint/model_epoch_50).
 
 #### Sensitivity Analysis for EXR model
   The result is shown in the figure below. 
@@ -84,10 +86,11 @@ The model reference is [here]()
 
   As the threshold increases, which means the tolerance level increases, the accuracy also increases. In addition, the EXR model predicts color more accurately than position because given the reasonable range of thresholds, color accuracy is greater than location accuracy.
 
-  The model reference is [here](https://github.com/xiaoxi-s/Illumination-Prediction).
+  The model reference is [here](https://github.com/xiaoxi-s/Illumination-Prediction/blob/main/checkpoint/model_epoch_30_res_540x360).
 
 ### Rendering Examples
 
+????
 
 
 ## Discussion
@@ -131,16 +134,15 @@ The model reference is [here]()
 
 ## Training Details
 
-### Environment Specification
+### Dependencies
 
-Dependencies: 
   - Conda
   - Python3.7
   - PyTorch
   - Numpy
   - OpenCv
 
-## Parameter Setting
+### Parameter Setting
 
  - Optimizer: [SGD](https://pytorch.org/docs/stable/optim.html?highlight=sgd#torch.optim.SGD)
  - Learning rate: 0.001
@@ -148,7 +150,7 @@ Dependencies:
  - Batch size: 16 
  - Model type: float
 
-### Cost
+### Time
 
  - Time for training with fine tune: 6.4 min/epoch
  - Time for training without fine tune: 2.7 min/epoch

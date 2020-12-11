@@ -22,7 +22,7 @@
 
 ### Dataset
 
-  We use [the Laval Indoor HDR Dataset](http://indoor.hdrdb.com/). The dataset contains over 2100+ high resolution indoor panoramas.
+  We use [the Laval Indoor HDR Dataset](http://indoor.hdrdb.com/). The dataset contains over 2100+ high resolution indoor panoramas. Each panorama has the resolution of 3884x7768. The total size of the dataset is over 150 GB.
 
 ### Preprocess
 
@@ -111,7 +111,7 @@
   We think there are reasons for the unideal predictions of our EXR model. 
 
   - The distribution of the dataset might not match the distribution expected by the feature extractor. The range of RGB values of EXR files is between \[0, 1\] and many values are within the range [0, 0.01]. As we want to preserve the information in EXR files, we have to manually scaling the input by a constant factor. Simple [normalization](https://pytorch.org/docs/stable/torchvision/transforms.html) implemented in PyTorch does not meet our need, and our transformation does not produce better results. 
-  - The EXR files are compressed to increase the training speed. The initial resolution is 3884x7768. We resize it to be 1024x2048. Such conversion might lead to less detailed information, thus the performance.
+  - The EXR files are compressed to increase the training speed. The original resolution is 3884x7768. We resize it to be 1024x2048. Such conversion might lead to less detailed information, thus the performance.
 
 ### Feature Extractor
 

@@ -68,11 +68,13 @@ All the results in these experiments outperform previous state-of-the-art algori
 
   - Evaluation: 
 
-     We rendered a chair using this environment map as a light source in Blender as our ground truth. It is generated using the path trace algorithm and takes 2 minutes to render. 
+    We rendered a chair using this environment map as a light source in Blender as our ground truth. It is generated using the path trace algorithm and takes 2 minutes to render. 
 
     Ground Truth | Naive Approach
     ------------ | ------------- 
     ![Ground_truth](./figures/labeling/Ground_Truth.png)| ![N_preprocess_result](./figures/labeling/N_preprocess_result.png)
+
+
     we think this result have several artifacts 
     1. One of the considerable contributors to realism is shadows. We can observe the chair's shadows in the ground truth, but there is only a little shadow very close to the leg. As a comparison, the shadow of the rubbish bin is obvious and contribute a lot to the realistic look of that object
     2. Too much information is lost when using the Uint8 representation. Many bright lights saturated at their maximum value, so we cannot compare which light is more luminous. Moreover, the color of the lights is lost during the conversion. For example, we can see the orange light on the leg, coming from the orange door on the left. The intensity of this light is surely less than the intensity of the lights at the ceiling. However, they are saturated at the maximum brightness (255), and the comparison yields wrong results.
@@ -80,9 +82,63 @@ All the results in these experiments outperform previous state-of-the-art algori
     4. The bright part of this render is too bright, and the dark part is too dark. The surface of the chair loses all information about its geometry. On the contrary, the junction between the chair body and the legs are too dark. 
     5. Subjectively, we don't think this is great. We sent this image to some of our friends and asked them to rate the realism. Most of them rated it as "it looks fake but acceptable." On the other hand, all of them rate the ground truth better than the rendered result using the naive approach. 
 
+  #### Advanced approach
+  With all the artifacts in our naive approach, we looked for a new labeler and probably new types of lights. we took a closer look at our datasets and found two key observations 
+  1. The number of visible shadows of an object usually is not more than 5. Since more distant lights are less significant and will cause shallow shadows. Also, they are closer together in the object's perspective. Our brain will try to merge these shadows rather than distinguish them. Therefore using a few directional lights can capture the strongest and closest lights and generate the visible shadows
+  2. The darker side of any object is not entirely dark. Various indirect lights (such as reflections from the wall) will light them up. These lights are typically large and in the opposite direction of the strongest lights. Using point lights can capture these effects well.
+  ![A_preprocess_observation](./figures/labeling/A_preprocess_observation.png) 
+  With those in mind, we created a new labeler. This labeler will use Exr files(float32) to capture the HDR information in the environment map. It will find three directional lights and 3 point lights with different criteria.
+  ##### Steps
+  - Create the significance map with brightness thresholds. The high threshold can capture the lights that cause shadows. The Lower threshold can capture indirect lights. The pixels in the high threshold map will be removed from the low threshold map.
+
+  High Threshold | Low Threshold |Low Threshold map - High Threshold map
+  ------------ | -------------| -------------
+  ![A_preprocess_high1](./figures/labeling/A_preprocess_high1.jpg)|![A_preprocess_low1](./figures/labeling/A_preprocess_low1.jpg) |![A_preprocess_afterHL](./figures/labeling/A_preprocess_afterHL1.jpg) 
+
+  - Similar way of finding connected components is used. However, there is no size requirement for directional lights. A header LED light might appears to be very small in the environment map. There is a minimum size requirement for the indirect lights to be significant
+  - Adjust the threshold to find precisely three significant light and three indirect lights
+
+  High Threshold Last iteration| Low Threshold Last iteration| Adjusted Low Threshold Map Last iteration
+  ------------ | -------------| -------------
+  ![A_preprocess_high_final](./figures/labeling/A_preprocess_high4.jpg)|![A_preprocess_low_final](./figures/labeling/A_preprocess_low4.jpg) |![A_preprocess_afterHL_final](./figures/labeling/A_preprocess_afterHL4.jpg) 
 
 
-### Training and Approaches to Improve performance
+  - Averages of these pixels are calculated in spherical coordinates. The color of the light is the average of all the pixels
+
+  ##### Results
+
+  Ground Truth | Naive Approach | Advanced Approach
+  ------------ | ------------- | ------------- 
+  ![Ground_truth](./figures/labeling/Ground_Truth.png)| ![N_preprocess_result](./figures/labeling/N_preprocess_result.png)| ![A_preprocess_result](./figures/labeling/A_preprocess_result.png)
+
+
+  We believed that this is an acceptable approximation of the lighting condition in the environment. Using Exr and HDR images can preserve more accurate light information and find the brightest light correctly.  The chair's color is very similar, comparing with ground truth. The self-shadow on the back of the chair is preserved. No parts on the chair are too dark or too bright. More importantly, this is rendered in real-time.
+
+  The positions of the shadows in our labeled result align with the shadows in the ground truth. However, due to the render engine's limitation, we cannot produce realistic soft shadows in real-time. The hard shadow is a compromise we made to reach real-time relighting. Though our approach is not as convincing as the ground truth, it increases the inserted object's realistic look by a large margin.
+
+### Data Generation
+
+  #### Cropping
+  Our goal is predicting the scene's illumination from a single image, so we need to generate a normal image from the environment map. We used a very simple algorithm to take a picture in the environment map. 
+  ![Data_preparation_explain](./figures/labeling/Datapre_explain.png)
+  Here are some examples from our cropper
+  ![Data_preparation_cropper_example1](./figures/labeling/Datapre_cropEx1.jpg) ![Data_preparation_cropper_example1](./figures/labeling/Datapre_cropEx2.jpg)
+  #### Labels rotation
+  To prevent the orientation of the camera affecting the result, we translate all labels into the camera's coordinate. 
+
+  #### Examples
+  Here are some rendering examples from the data we used for training
+
+  Rendering setup.
+  ![Datapre_rendering_setup](./figures/labeling/Datapre_rendering_setup.png)
+
+  Examples - Classroom | Examples - Home
+  ------------ | -------------
+  ![](./figures/labeling/1_labeled.png)|![](./figures/labeling/29_labeled.png)
+  ![](./figures/labeling/17_labeled.png) |![](./figures/labeling/25_labeled.png) 
+
+
+  ### Training and Approaches to Improve performance
 
   We provide training details at the end of this website. 
 

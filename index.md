@@ -23,7 +23,6 @@ There was also a study that inferred a high-level illumination prediction from a
 
 A third experiment involved trying to infer a high dynamic range result (HDR) from a low dynamic range image with a mobile phone camera using a limited Field of View (FOV). Videos were collected with lighting using reflective spheres, and the researchers train a deep neural network to predict what the reflective spheres will appear upon being reflected on an unknown surface. 
 
-All the results in these experiments outperform previous state-of-the-art algorithms in illumination detection and accuracy classification.
 
 
 ## Our Approach

@@ -122,11 +122,11 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
  
   ### Post-Processing
 
-    In our assumption, we stated that we assume the camera's lighting condition should be very similar or the same as our virtual object. However, this assumption is highly possible to be violated. We have to insert the items in front of the camera, and the environment maps are taken in a relatively small room. Therefore objects slightly in front of the camera would possibly have a noticeable change in lighting conditions. On the other hand, 99% of our dataset's lights and real-life are at the ceiling.  We created a simple rotation mechanism to alleviate this issue: it will rotate all the lights upwards to approximate the distance between the camera and the object.
+  In our assumption, we stated that we assume the camera's lighting condition should be very similar or the same as our virtual object. However, this assumption is highly possible to be violated. We have to insert the items in front of the camera, and the environment maps are taken in a relatively small room. Therefore objects slightly in front of the camera would possibly have a noticeable change in lighting conditions. On the other hand, 99% of our dataset's lights and real-life are at the ceiling.  We created a simple rotation mechanism to alleviate this issue: it will rotate all the lights upwards to approximate the distance between the camera and the object.
 
-    ![Post-Processing](./figures/labeling/Postprocessing_explain.png)
+  ![Post-Processing](./figures/labeling/Postprocessing_explain.png)
 
-    From this example, The lighting angle at the camera's position is very different from the object's position, and our assumption does not hold. With the rotation, the rendered result would be much more accurate. 
+  From this example, The lighting angle at the camera's position is very different from the object's position, and our assumption does not hold. With the rotation, the rendered result would be much more accurate. 
 
   ### Training and Approaches to Improve performance
 

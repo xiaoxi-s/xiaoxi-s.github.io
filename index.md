@@ -9,8 +9,8 @@
 
 ## Our Approach
 
-????
-
+  - Estimate the lighting conditions at the camera's location from a single image 
+  - Assume the lighting condition of the object is the same or very similar to the camera. No additional information about the geometry, occlusion other than a ground plane is needed
   - Deep learning based
   - Simplified parametric estimation
 
@@ -119,6 +119,13 @@
   ![](./figures/labeling/1_labeled.png)|![](./figures/labeling/29_labeled.png)
   ![](./figures/labeling/17_labeled.png) |![](./figures/labeling/25_labeled.png) 
 
+  ### Post-Processing
+
+    In our assumption, we stated that we assume the camera's lighting condition should be very similar or the same as our virtual object. However, this assumption is highly possible to be violated. We have to insert the items in front of the camera, and the environment maps are taken in a relatively small room. Therefore objects slightly in front of the camera would possibly have a noticeable change in lighting conditions. On the other hand, 99% of our dataset's lights and real-life are at the ceiling.  We created a simple rotation mechanism to alleviate this issue: it will rotate all the lights upwards to approximate the distance between the camera and the object.
+
+    ![Post-Processing](./figures/labeling/Postprocessing_explain.png)
+
+    From this example, The lighting angle at the camera's position is very different from the object's position, and our assumption does not hold. With the rotation, the rendered result would be much more accurate. 
 
   ### Training and Approaches to Improve performance
 
@@ -150,11 +157,7 @@
 
 ## Result
 
-  In this section, we would provide the results of the preprocessing, evaluation of both the JPG and EXR model, and rendering examples. 
-
-### Labeler
-
-????
+  In this section, we would provide the results of the evaluation of both the JPG and EXR model, and rendering examples. 
 
 ### Accuracy of the JPG Model
 
@@ -182,7 +185,13 @@
 
 ### Rendering Examples
 
-????
+  With Labels | With Predicted Outputs
+  ------------ | -------------
+  ![](./figures/labeling/1_labeled.png)| ![](./figures/result/1_predicted.png)
+  ![](./figures/labeling/17_labeled.png) | ![](./figures/result/17_predicted.png)
+  ![](./figures/labeling/29_labeled.png) | ![](./figures/result/29_predicted.png)
+  ![](./figures/labeling/25_labeled.png) | ![](./figures/result/25_predicted.png)
+
 
 ## Discussion
 
@@ -209,6 +218,14 @@
 
   Although this project is not aimmed at testing different feature extractors, we tried another feature extractor, [wide residual network 50-2 (WRN)](https://arxiv.org/pdf/1605.07146.pdf). However, WRN is more computationally expensive (takes much longer to train) and yields much worse result than dense net. Therefore, we eventually stick to our initial choice. 
 
+### Intensity of lights 
+
+  Every rendering engine uses a different scale for the intensity of lights. Similarly, the intensity in the HDR image cannot be simply converted to the intensity of lights in Blender. Therefore, we can only extract the relative light information in the environment map. 
+
+### Geometry and occlusion in the scene
+  
+  We only assume a ground plane, and this is the only geometry our object will interact with. The real world is much more complicated than this simple model. However, We kept our scope in only estimating lighting conditions at the camera's location, and our result can be used in conjunction with other AR software to predict the geometer, etc. We believe it will yield better results after combining scenes information
+  
 ## What We Learned
 
   - Large dataset is challenging.

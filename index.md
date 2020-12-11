@@ -181,10 +181,12 @@ All the results in these experiments outperform previous state-of-the-art algori
   - [Project Proposal]()
   - [Midterm Report](material\midterm-report.pdf)
 
-## Reference
+## References
 
   - Marc-André Gardner, Kalyan Sunkavalli, Ersin Yumer, Xiaohui Shen, Emiliano Gambaretto, Christian Gagné, and Jean-François Lalonde Learning to Predict Indoor Illumination from a Single Image ACM Transactions on Graphics (SIGGRAPH Asia), 9(4), 2017
   - Gardner, Marc-André, et al. Deep Parametric Indoor Lighting Estimation. arXiv:1910.08812 \[cs\], 2019, Oct. arXiv.org, http://arxiv.org/abs/1910.08812.
+  - Chloe LeGendre, Wan-Chun Ma, Graham Fyffe, John Flyn, Laurent Charbonnel, Jay Busch, and Paul Debevec DeepLight: Learning Illumination for Unconstrained Mobile Mixed Reality (CVPR_2019), 2019
+
 
 ## Training Details
 

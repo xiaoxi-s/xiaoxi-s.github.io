@@ -72,7 +72,7 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
 
     Ground Truth | Naive Approach
     ------------ | ------------- 
-    ![Ground_truth](./figures/labeling/Ground_Truth.png)| ![N_preprocess_result](./figures/labeling/N_preprocess_result.png)
+    <img src="figures/labeling/Ground_Truth.png" alt="Ground_truth" width="200" height=""> | <img src="figures/labeling/N_preprocess_result.png" alt="N_preprocess_result" width="200" height="" >
 
     we think this result have several artifacts 
     1. One of the considerable contributors to realism is shadows. We can observe the chair's shadows in the ground truth, but there is only a little shadow very close to the leg. As a comparison, the shadow of the rubbish bin is obvious and contribute a lot to the realistic look of that object
@@ -82,10 +82,28 @@ A third experiment involved trying to infer a high dynamic range result (HDR) fr
     5. Subjectively, we don't think this is great. We sent this image to some of our friends and asked them to rate the realism. Most of them rated it as "it looks fake but acceptable." On the other hand, all of them rate the ground truth better than the rendered result using the naive approach. 
 
 
+ #### Advanced approach
+
+  With all the artifacts in our naive approach, we looked for a new labeler and probably new types of lights. we took a closer look at our datasets and found two key observations 
+  1. The number of visible shadows of an object usually is not more than 5. Since more distant lights are less significant and will cause shallow shadows. Also, they are closer together in the object's perspective. Our brain will try to merge these shadows rather than distinguish them. Therefore using a few directional lights can capture the strongest and closest lights and generate the visible shadows
+  2. The darker side of any object is not entirely dark. Various indirect lights (such as reflections from the wall) will light them up. These lights are typically large and in the opposite direction of the strongest lights. Using point lights can capture these effects well.
+  ![A_preprocess_observation](./figures/labeling/A_preprocess_observation.png) 
+  With those in mind, we created a new labeler. This labeler will use Exr files(float32) to capture the HDR information in the environment map. It will find three directional lights and 3 point lights with different criteria.
+
+##### Steps
+
+  - Create the significance map with brightness thresholds. The high threshold can capture the lights that cause shadows. The Lower threshold can capture indirect lights. The pixels in the high threshold map will be removed from the low threshold map.
+
+  High Threshold | Low Threshold |Low Threshold map - High Threshold map
+  ------------ | -------------| -------------
+  ![A_preprocess_high1](./figures/labeling/A_preprocess_high1.jpg)|![A_preprocess_low1](./figures/labeling/A_preprocess_low1.jpg) |![A_preprocess_afterHL](./figures/labeling/A_preprocess_afterHL1.jpg) 
+
+  - Similar way of finding connected components is used. However, there is no size requirement for directional lights. A header LED light might appears to be very small in the environment map. There is a minimum size requirement for the indirect lights to be significant
+  - Adjust the threshold to find precisely three significant light and three indirect lights
 
   High Threshold Last iteration| Low Threshold Last iteration| Adjusted Low Threshold Map Last iteration
   ------------ | -------------| -------------
-  ![A_preprocess_high_final](./figures/labeling/A_preprocess_high4.jpg)|![A_preprocess_low_final](./figures/labeling/A_preprocess_low4.jpg) |![A_preprocess_afterHL_final](./figures/labeling/A_preprocess_afterHL4.jpg) 
+  <img src="figures/labeling/A_preprocess_high4.jpg" alt="A_preprocess_high_final" width="200" height=""> |<img src="figures/labeling/A_preprocess_low4.jpg" alt="A_preprocess_low_final" width="200" height=""> | <img src="figures/labeling/A_preprocess_afterHL4.jpg" alt="A_preprocess_afterHL_final" width="200" height=""> 
 
 
   - Averages of these pixels are calculated in spherical coordinates. The color of the light is the average of all the pixels
